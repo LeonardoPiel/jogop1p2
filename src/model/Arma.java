@@ -53,4 +53,8 @@ public class Arma {
                 + "nome: "+this.nome+"\n "
                 + "tipo: "+this.tipo);
     }
+    public static void main(String[] args) {
+        Arma a = new Arma("Pistola", 1);
+        a.mostraArma();
+    }
 }
