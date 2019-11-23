@@ -48,6 +48,9 @@ public class Arma {
         this.tipo = tipo;
     }
     
+    public void atacar(){
+    }
+    
     public void mostraArma(){
         System.out.println("coef dano: "+this.coeficienteDano+ "\n"
                 + "nome: "+this.nome+"\n "
