@@ -5,6 +5,8 @@
  */
 package model;
 
+import java.util.Random;
+
 /**
  *
  * @author leona
@@ -21,7 +23,7 @@ public class Arma {
     public Arma(String nome, int tipo) {
         this.nome = nome;
         this.tipo = tipo;
-        this.setCoeficienteDano();
+        this.setCoeficienteDano(); // o coeficiente de dano é dado a partir do tipo de arma
     }
 
     public String getNome() {
@@ -48,7 +50,10 @@ public class Arma {
         this.tipo = tipo;
     }
     
-    public void atacar(){
+   public double disparar(double d){
+        Random rand = new Random();
+        rand.nextDouble();
+        return (this.coeficienteDano/d)*rand.nextDouble();
     }
     
     public void mostraArma(){
@@ -59,5 +64,7 @@ public class Arma {
     public static void main(String[] args) {
         Arma a = new Arma("Pistola", 1);
         a.mostraArma();
+        Random rand = new Random();
+        System.out.println(rand.nextDouble()* 10);
     }
 }

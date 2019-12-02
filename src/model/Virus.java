@@ -10,5 +10,10 @@ package model;
  * @author leona
  */
 public class Virus {
+    private double m;
+    private double n;
+    private double x; 
+    private double y;
+    private int tipo;
     
 }
