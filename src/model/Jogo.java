@@ -24,25 +24,17 @@ public class Jogo {
         System.out.println("O jogo foi finalizado o jogador " + ganhador + " ganhou");
     }
 
-    public void mostraJogadores(Robo j1, Robo j2) {
+    public void mostraJogador(Robo j) {
         System.out.println("---------------------------------------");
-        System.out.println("vida " + j1.getNome() + " => " + j1.getQtdVida());
-        System.out.println("vida " + j2.getNome() + " => " + j2.getQtdVida());
+        System.out.println("vida " + j.getNome() + " => " + j.getQtdVida());
 
-        System.out.println("posição jogador 1=> " + j1.getPosX() + "," + j1.getPosY());
-        System.out.println("posição jogador 2=> " + j2.getPosX() + "," + j2.getPosY());
+        System.out.println("posição jogador "+j.getNome()+" => " + j.getPosX() + "," + j.getPosY());
 
-        if (j1.getArmaEquipada() != null) {
-            System.out.println("Arma " + j1.getNome() + " => " + j1.getArmaEquipada().getNome());
-        }else{
-            System.out.println("jogador "+j1.getNome()+" ainda não tem arma");
+        if (j.getArmaEquipada() != null) {
+            System.out.println("Arma " + j.getNome() + " => " + j.getArmaEquipada().getNome());
+        } else {
+            System.out.println("jogador " + j.getNome() + " ainda não tem arma");
         }
-        if (j2.getArmaEquipada() != null) {
-            System.out.println("Arma " + j2.getNome() + " => " + j1.getArmaEquipada().getNome());
-        }else{
-            System.out.println("jogador "+j2.getNome()+" ainda não tem arma");
-        }
-
         System.out.println("---------------------------------------");
     }
 
@@ -73,7 +65,7 @@ public class Jogo {
             if (s == 8) {
                 j.getArmaEquipada().atacar(oponente);
             }
-        }else{
+        } else {
             s = Integer.parseInt(entrada.nextLine());
         }
         if (!j.agir(s)) {
@@ -82,17 +74,33 @@ public class Jogo {
         System.out.println("Você entrou com " + s);
         for (ItensEspeciais i : arena.getItensEspeciais()) {
             if (i instanceof Arma) {
-                
+
                 /**
-                 * Verificando se o jogador encontrou uma arma e caso sim, se ele deseja pegá-la
+                 * Verificando se o jogador encontrou uma arma e caso sim, se
+                 * ele deseja pegá-la
                  */
-                if ((j.getPosX() == i.getX()) && (j.getPosY() == i.getY())) {
+                if (((j.getPosX() == i.getX()) && (j.getPosY() == i.getY())) && j.getArmaEquipada() == null) {
                     System.out.println("Deseja pegar a arma? (6 - sim / 7 - não) => " + ((Arma) i).getNome());
                     s = 0;
                     while (s < 6 || s > 7) {
                         s = Integer.parseInt(entrada.nextLine());
-                        System.out.println("seis"+s);
+                        System.out.println("seis" + s);
                         if (s == 6) {
+                            j.setArmaEquipada(((Arma) i));
+                            arena.getItensEspeciais().remove(((Arma) i));
+                        } else {
+                            System.out.println("Não pegou a arma");
+                        }
+                    }
+                    return s;
+                } else if (((j.getPosX() == i.getX()) && (j.getPosY() == i.getY())) && j.getArmaEquipada() != null) {
+                    System.out.println("Deseja substituir sua arma ("+j.getArmaEquipada().getNome()+")? (6 - sim / 7 - não) nova arma => " + ((Arma) i).getNome());
+                    s = 0;
+                    while (s < 6 || s > 7) {
+                        s = Integer.parseInt(entrada.nextLine());
+                        System.out.println("seis" + s);
+                        if (s == 6) {
+                            arena.getItensEspeciais().add(j.getArmaEquipada());
                             j.setArmaEquipada(((Arma) i));
                             arena.getItensEspeciais().remove(((Arma) i));
                         } else {
@@ -147,7 +155,9 @@ public class Jogo {
 
         while (j1.getQtdVida() > 0 && j2.getQtdVida() > 0) {
             int jogou = 0;
-            jogo.mostraJogadores(j1, j2);
+            jogo.mostraJogador(j1);
+            jogo.mostraJogador(j2);
+            jogo.mostraItensEspeciais(itensEspeciais);
 
             while (jogou != 2) {
                 jogo.acoesJogador(j1, j2, arena);
