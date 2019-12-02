@@ -5,15 +5,34 @@
  */
 package model;
 
+import java.util.List;
+
 /**
  *
  * @author leona
  */
 public class Arena {
+
     private double comprimento;
     private double altura;
     private double largura;
+    private List<ItensEspeciais> itensEspeciais;
 
+    public Arena(double comprimento, double altura, double largura, List<ItensEspeciais> itensEspeciais) {
+        this.comprimento = comprimento;
+        this.altura = altura;
+        this.largura = largura;
+        this.itensEspeciais = itensEspeciais;
+    }
+
+    public List<ItensEspeciais> getItensEspeciais() {
+        return itensEspeciais;
+    }
+
+    public void setItensEspeciais(List<ItensEspeciais> itensEspeciais) {
+        this.itensEspeciais = itensEspeciais;
+    }
+    
     public double getComprimento() {
         return comprimento;
     }
@@ -37,12 +56,8 @@ public class Arena {
     public void setLargura(double largura) {
         this.largura = largura;
     }
-
-    public Arena(double comprimento, double altura, double largura) {
-        this.comprimento = comprimento;
-        this.altura = altura;
-        this.largura = largura;
+    
+    public void desenhar(){
+        System.out.println("desenhou arena");
     }
-    
-    
 }

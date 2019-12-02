@@ -16,6 +16,7 @@ public class Arma extends ItensEspeciais {
     private String nome;
     private double coeficienteDano;
     private int tipo;
+
     /*
      1 - a distância (30)
      2 - perto (40)
@@ -26,19 +27,19 @@ public class Arma extends ItensEspeciais {
         this.tipo = tipo;
         this.setCoeficienteDano(); // o coeficiente de dano é dado a partir do tipo de arma
     }
-    
+
     public String getNome() {
         return nome;
     }
-    
-     public double getCoeficienteDano() {
+
+    public double getCoeficienteDano() {
         return coeficienteDano;
     }
 
     public void setCoeficienteDano() {
-        if(this.tipo == 1){
+        if (this.tipo == 1) {
             this.coeficienteDano = 30;
-        }else{
+        } else {
             this.coeficienteDano = 40;
         }
     }
@@ -50,26 +51,33 @@ public class Arma extends ItensEspeciais {
     public void setTipo(int tipo) {
         this.tipo = tipo;
     }
-    
-   public double atacar(double d, Robo oponente){
-        double dist = Math.sqrt((this.x - oponente.getPosX())^2 + (this.y - oponente.getPosY())^2);
-        if(dist > 3){
+
+    public double atacar(Robo oponente) {
+        double eq = Math.pow((this.x - oponente.getPosX()),2) + Math.pow((this.y - oponente.getPosY()),2);
+        double dist = Math.sqrt(eq);
+        
+        if (dist > 10) {
             return 0;
-        } 
+        }
         Random rand = new Random();
-        rand.nextDouble();
-        return (this.coeficienteDano/d)*rand.nextDouble();
+        oponente.receberDano((this.coeficienteDano / dist) * rand.nextDouble());
+        
+        return (this.coeficienteDano / dist) * rand.nextDouble();
     }
-    
-    public void mostraArma(){
-        System.out.println("coef dano: "+this.coeficienteDano+ "\n"
-                + "nome: "+this.nome+"\n "
-                + "tipo: "+this.tipo);
+
+    public void mostraArma() {
+        System.out.println("coef dano: " + this.coeficienteDano + "\n"
+                + "nome: " + this.nome + "\n "
+                + "x: " + this.getX() + "\n "
+                + "y: " + this.getY() + "\n "       
+                + "tipo: " + this.tipo);
+        
     }
+
     public static void main(String[] args) {
-        Arma a = new Arma("Pistola", 1, 1,1);
+        Arma a = new Arma("Pistola", 1, 1, 1);
         a.mostraArma();
         Random rand = new Random();
-        System.out.println(rand.nextDouble()* 10);
+        System.out.println(rand.nextDouble() * 10);
     }
 }

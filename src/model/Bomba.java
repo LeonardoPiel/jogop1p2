@@ -12,7 +12,7 @@ import java.util.Random;
  * @author leona
  */
 public class Bomba extends ItensEspeciais {
-    private double dano;
+    private double dano = 1;
     
     public Bomba(int x, int y) {
         super(x, y);
@@ -21,7 +21,7 @@ public class Bomba extends ItensEspeciais {
     public double estourar(){
         Random rand = new Random();
         rand.nextDouble();
-        return (this.dano)*rand.nextDouble();
+        return (this.dano)*rand.nextDouble() * 10;
     }
     
 }
