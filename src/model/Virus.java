@@ -9,11 +9,47 @@ package model;
  *
  * @author leona
  */
-public class Virus {
+public class Virus extends ItensEspeciais {
+
     private double m;
     private double n;
-    private double x; 
-    private double y;
     private int tipo;
+
+    public Virus(int tipo, int x, int y) {
+        super(x, y);
+        this.tipo = tipo;
+        this.setM_N();
+    }
     
+
+    public double getM() {
+        return m;
+    }
+
+    public void setM_N() {
+        switch(this.tipo){
+            case 1:
+                this.m = 5;
+                this.n = 3;
+                break;
+            case 2:
+                this.m = 5;
+                this.n = 2;
+                break;
+            default:
+                this.m = 1;
+                this.n = 1;
+        }
+    }
+    
+    public double getN() {
+        return n;
+    }
+
+    public void setTipo(int tipo) {
+        this.tipo = tipo;
+    }
+
+    
+
 }

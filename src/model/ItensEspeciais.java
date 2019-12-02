@@ -26,8 +26,13 @@ public abstract class ItensEspeciais {
     public void setY(int y) {
         this.y = y;
     }
-    private int x;
-    private int y;
+
+    public ItensEspeciais(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+    public int x;
+    public int y;
     
     
 }

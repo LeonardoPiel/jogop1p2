@@ -11,7 +11,7 @@ import java.util.Random;
  *
  * @author leona
  */
-public class Arma {
+public class Arma extends ItensEspeciais {
 
     private String nome;
     private double coeficienteDano;
@@ -20,12 +20,13 @@ public class Arma {
      1 - a distância (30)
      2 - perto (40)
      */
-    public Arma(String nome, int tipo) {
+    public Arma(String nome, int tipo, int x, int y) {
+        super(x, y);
         this.nome = nome;
         this.tipo = tipo;
         this.setCoeficienteDano(); // o coeficiente de dano é dado a partir do tipo de arma
     }
-
+    
     public String getNome() {
         return nome;
     }
@@ -50,7 +51,11 @@ public class Arma {
         this.tipo = tipo;
     }
     
-   public double disparar(double d){
+   public double atacar(double d, Robo oponente){
+        double dist = Math.sqrt((this.x - oponente.getPosX())^2 + (this.y - oponente.getPosY())^2);
+        if(dist > 3){
+            return 0;
+        } 
         Random rand = new Random();
         rand.nextDouble();
         return (this.coeficienteDano/d)*rand.nextDouble();
@@ -62,7 +67,7 @@ public class Arma {
                 + "tipo: "+this.tipo);
     }
     public static void main(String[] args) {
-        Arma a = new Arma("Pistola", 1);
+        Arma a = new Arma("Pistola", 1, 1,1);
         a.mostraArma();
         Random rand = new Random();
         System.out.println(rand.nextDouble()* 10);
