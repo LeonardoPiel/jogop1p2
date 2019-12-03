@@ -41,7 +41,7 @@ public class Arena {
         this.comprimento = comprimento;
     }
 
-    public double getAltura() {
+    public int getAltura() {
         return altura;
     }
 
@@ -49,7 +49,7 @@ public class Arena {
         this.altura = altura;
     }
 
-    public double getLargura() {
+    public int getLargura() {
         return largura;
     }
 

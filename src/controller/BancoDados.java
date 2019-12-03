@@ -25,9 +25,9 @@ public class BancoDados
     
     public BancoDados()
     {
-        this.caminhoBanco = "jdbc:mysql://localhost/bd_teste";
+        this.caminhoBanco = "jdbc:mysql://localhost/jogop1p2";
         this.login = "root";
-        this.senha = "admin";
+        this.senha = "";
         this.conexao = null;
         this.comando = null;
     }

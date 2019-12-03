@@ -5,6 +5,8 @@
  */
 package model;
 
+import controller.BancoDados;
+import controller.ControleItensEspeciais;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -15,24 +17,44 @@ import java.util.Scanner;
  * @author leona
  */
 public class Jogo {
-
+    private static int maxX = 20;
+    private static int maxY = 20;
+    
     private Arena arena;
     private Robo j1;
     private Robo j2;
+    private BancoDados bd;
+    private ControleItensEspeciais cItens;
+    private List<ItensEspeciais> itensEspeciais;
 
-    public Jogo(Arena a, Robo j1, Robo j2) {
-        this.arena = a;
-        this.j1 = j1;
-        this.j2 = j2;
+    public Jogo() {
+        this.bd = new BancoDados();
+        this.cItens = new ControleItensEspeciais(this.bd);
+        /*
+         * é preciso passar as dimensões da arena para o controlador pois 
+         * a posição dos itens é gerada desses dados
+        */
     }
 
     public void iniciar() {
         System.out.println("O jogo iniciou");
+        this.bd.criarConexao();
+        this.itensEspeciais = new ArrayList<>();
+        
+        this.itensEspeciais.addAll(cItens.buscarItens(maxX, maxY));
+        this.arena = new Arena(0, 20, 20, this.itensEspeciais);
+
+        //Cada robô nasce nos pontos extremos do mapa
+        Robo j1 = new Robo(0, 0, 10, "j1");
+        Robo j2 = new Robo(20, 20, 10, "j2");
+        this.j1 = j1;
+        this.j2 = j2;
     }
 
     public void acabar() {
+        this.bd.fecharConexao();
         final Robo ganhador = this.j1.getQtdVida() > this.j2.getQtdVida() ? this.j1 : this.j2;
-        System.out.println("O jogo foi finalizado o jogador " + ganhador + " ganhou");
+        System.out.println("O jogo foi finalizado. o jogador " + ganhador.getNome() + " ganhou");
     }
 
     public void mostraJogador(Robo j) {
@@ -50,24 +72,28 @@ public class Jogo {
     }
 
     public void mostraItensEspeciais() {
-
-        System.out.println("------ Armas do jogo ------");
-
+        System.out.println("------------- Itens especiais no jogo -------------");
         for (ItensEspeciais i : this.arena.getItensEspeciais()) {
             if (i instanceof Arma) {
                 ((Arma) i).mostraArma();
             }
             if (i instanceof Bomba) {
-                System.out.println("bomba!!"
-                        + "\nx: " +i.getX()
-                        + "\ny: " +i.getY());
+                System.out.println("bomba!! neste local =>"
+                        + "\nx: " + i.getX()
+                        + "\ny: " + i.getY());
             }
+            if (i instanceof Virus) {
+                System.out.println("Virus neste local =>"
+                        + "\nx: " + i.getX()
+                        + "\ny: " + i.getY());
+            }
+
         }
         System.out.println("---------------------------------------");
     }
 
     public int acoesJogador(Robo j, Robo oponente) {
-
+        j.checaVirus();
         System.out.println("jogador " + j.getNome() + " faça uma escolha:");
         System.out.println("1 andar cima, 2 andar baixo, 3 andar esquerda, 4 andar direita ");
         Scanner entrada = new Scanner(System.in);
@@ -92,8 +118,8 @@ public class Jogo {
             }
 
         } catch (NumberFormatException e) {
-            System.out.println("Você informou um formato de entrada errado");
-            e.printStackTrace();
+            System.out.println("Você informou um formato de entrada errado e portanto perdeu a rodada");
+            //e.printStackTrace();
         }
         if (!j.movimentar(s, this.arena)) {
             return 0;
@@ -121,8 +147,8 @@ public class Jogo {
                         }
                         return s;
                     } catch (NumberFormatException e) {
-                        System.out.println("Você informou um formato de entrada errado");
-                        e.printStackTrace();
+                        System.out.println("Você informou um formato de entrada errado e portanto perdeu a rodada");
+                        
                     }
                     // tem arma e deseja substituir
                 } else if (((j.getPosX() == i.getX()) && (j.getPosY() == i.getY())) && j.getArmaEquipada() != null) {
@@ -142,8 +168,7 @@ public class Jogo {
                         }
                         return s;
                     } catch (NumberFormatException e) {
-                        System.out.println("Você informou um formato de entrada errado");
-                        e.printStackTrace();
+                        System.out.println("Você informou um formato de entrada errado e portanto perdeu a rodada");
                     }
                 }
             }
@@ -167,57 +192,31 @@ public class Jogo {
         }
         return 0;
     }
-    
 
-    public void logger(int s) {
-    }
-
-    public static void main(String[] args) {
-        Random rand = new Random();
-        List<ItensEspeciais> itensEspeciais = new ArrayList<ItensEspeciais>();
-
-        Arma a1 = new Arma("Pistola", 1, 1, 1);
-        Arma a2 = new Arma("Soco Inglês", 2, 19, 19);
-        Arma a3 = new Arma("Torreta", 1, rand.nextInt(20), rand.nextInt(20));
-        Arma a4 = new Arma("Luva Especial", 2, rand.nextInt(20), rand.nextInt(20));
-
-        Bomba b1 = new Bomba(rand.nextInt(20), rand.nextInt(20));
-
-        itensEspeciais.add(a1);
-        itensEspeciais.add(a2);
-        itensEspeciais.add(a3);
-        itensEspeciais.add(a4);
-        itensEspeciais.add(b1);
-
-        Arena arena = new Arena(0, 20, 20, itensEspeciais);
-        /**
-         * Cada robô nasce nos pontos extremos do mapa
-         */
-        Robo j1 = new Robo(0, 0, 200, "j1");
-        Robo j2 = new Robo(20, 20, 200, "j2");
-
-        Jogo jogo = new Jogo(arena, j1, j2);
-        jogo.iniciar();
-        //arena.desenhar(j1, j2);
-
-        jogo.mostraItensEspeciais();
-
-        while (j1.getQtdVida() > 0 && j2.getQtdVida() > 0) {
+    public void duelar() {
+        while (this.j1.getQtdVida() > 0 && this.j2.getQtdVida() > 0) {
             /*enquanto ninguém morrer o jogo continua*/
             int jogou = 0;
             // mostra dados do jogo
-            jogo.mostraJogador(j1);
-            jogo.mostraJogador(j2);
-            jogo.mostraItensEspeciais();
+            this.mostraJogador(this.j1);
+            this.mostraJogador(this.j2);
+            this.mostraItensEspeciais();
 
             while (jogou != 2) { // controlador principal das ações dos jogadores
-                jogo.acoesJogador(j1, j2);
+                this.acoesJogador(j1, j2);
                 jogou++;
 
-                jogo.acoesJogador(j2, j1);
+                this.acoesJogador(j2, j1);
                 jogou++;
             }
         }
+        return;
+    }
+
+    public static void main(String[] args) {
+        Jogo jogo = new Jogo();
+        jogo.iniciar();
+        jogo.duelar();
         jogo.acabar();
     }
 }

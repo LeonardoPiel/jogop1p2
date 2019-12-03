@@ -18,6 +18,7 @@ public class Robo {
     private Arma armaEquipada;
     private boolean doente;
     private Virus virus;
+    private int n;
 
     public Robo(int posX, int posY, double qtdVida, String nome) {
         this.posX = posX;
@@ -25,6 +26,21 @@ public class Robo {
         this.qtdVida = qtdVida;
         this.nome = nome;
         this.armaEquipada = null;
+        this.doente = false;
+        this.virus = null;
+        this.n = 0;
+    }
+
+    public void checaVirus() {
+        if (this.isDoente()) {
+            if (this.n < this.virus.getN()) {
+                this.receberDano(this.virus.getM());
+                n++;
+            } else {
+                n = 0;
+                this.setDoente(false, this.virus);
+            }
+        }
     }
 
     public boolean isDoente() {
@@ -32,7 +48,14 @@ public class Robo {
     }
 
     public void setDoente(boolean doente, Virus v) {
-        this.doente = doente;
+        if (doente) {
+            this.virus = v;
+            this.doente = doente;
+        }
+        else{
+            this.doente = doente;
+            this.virus = null;
+        }
     }
 
     public String getNome() {

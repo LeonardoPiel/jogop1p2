@@ -12,7 +12,7 @@ package model;
 public class Virus extends ItensEspeciais {
 
     private double m;
-    private double n;
+    private int n;
     private int tipo;
 
     public Virus(int tipo, int x, int y) {
@@ -42,7 +42,7 @@ public class Virus extends ItensEspeciais {
         }
     }
     
-    public double getN() {
+    public int getN() {
         return n;
     }
 

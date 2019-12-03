@@ -21,12 +21,15 @@ public class Arma extends ItensEspeciais {
      1 - a distância (30)
      2 - perto (40)
      */
-    public Arma(String nome, int tipo, int x, int y) {
+    public Arma(String nome, double cf, int tipo, int x, int y) {
         super(x, y);
         this.nome = nome;
         this.tipo = tipo;
-        this.setCoeficienteDano(); // o coeficiente de dano é dado a partir do tipo de arma
+        this.coeficienteDano = cf;
+        //this.setCoeficienteDano(); // o coeficiente de dano é dado a partir do tipo de arma
     }
+    
+    
 
     public String getNome() {
         return nome;
@@ -36,13 +39,7 @@ public class Arma extends ItensEspeciais {
         return coeficienteDano;
     }
 
-    public void setCoeficienteDano() {
-        if (this.tipo == 1) {
-            this.coeficienteDano = 30;
-        } else {
-            this.coeficienteDano = 40;
-        }
-    }
+ 
 
     public int getTipo() {
         return tipo;
@@ -72,18 +69,10 @@ public class Arma extends ItensEspeciais {
     }
 
     public void mostraArma() {
-        System.out.println("coef dano: " + this.coeficienteDano + "\n"
-                + "nome: " + this.nome + "\n "
+        System.out.println("nome: " + this.nome + "\n "
+                + "coef dano: " + this.coeficienteDano + "\n"        
                 + "x: " + this.getX() + "\n "
                 + "y: " + this.getY() + "\n "
-                + "tipo: " + this.tipo);
-
-    }
-
-    public static void main(String[] args) {
-        Arma a = new Arma("Pistola", 1, 1, 1);
-        a.mostraArma();
-        Random rand = new Random();
-        System.out.println(rand.nextDouble() * 10);
+                + "tipo: " + (this.tipo == 1? "distância":"perto"));
     }
 }
