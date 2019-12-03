@@ -30,7 +30,8 @@ public class Jogo {
         System.out.println("O jogo iniciou");
     }
 
-    public void acabar(Robo ganhador) {
+    public void acabar() {
+        final Robo ganhador = this.j1.getQtdVida() > this.j2.getQtdVida() ? this.j1 : this.j2;
         System.out.println("O jogo foi finalizado o jogador " + ganhador + " ganhou");
     }
 
@@ -57,7 +58,9 @@ public class Jogo {
                 ((Arma) i).mostraArma();
             }
             if (i instanceof Bomba) {
-                System.out.println("bomba!!");
+                System.out.println("bomba!!"
+                        + "\nx: " +i.getX()
+                        + "\ny: " +i.getY());
             }
         }
         System.out.println("---------------------------------------");
@@ -154,9 +157,17 @@ public class Jogo {
                     }
                 }
             }
+            // verifica se o jogador pisou em virus
+            if (i instanceof Virus) {
+                if ((j.getPosX() == i.getX()) && (j.getPosY() == i.getY())) {
+                    System.out.println("Pegou vírus!!");
+                    j.setDoente(true, ((Virus) i));
+                }
+            }
         }
         return 0;
     }
+    
 
     public void logger(int s) {
     }
@@ -170,7 +181,7 @@ public class Jogo {
         Arma a3 = new Arma("Torreta", 1, rand.nextInt(20), rand.nextInt(20));
         Arma a4 = new Arma("Luva Especial", 2, rand.nextInt(20), rand.nextInt(20));
 
-        Bomba b1 = new Bomba(0, 0);
+        Bomba b1 = new Bomba(rand.nextInt(20), rand.nextInt(20));
 
         itensEspeciais.add(a1);
         itensEspeciais.add(a2);
@@ -207,5 +218,6 @@ public class Jogo {
                 jogou++;
             }
         }
+        jogo.acabar();
     }
 }

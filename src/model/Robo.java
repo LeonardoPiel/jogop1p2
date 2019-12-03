@@ -16,6 +16,8 @@ public class Robo {
     private int posY;
     private double qtdVida;
     private Arma armaEquipada;
+    private boolean doente;
+    private Virus virus;
 
     public Robo(int posX, int posY, double qtdVida, String nome) {
         this.posX = posX;
@@ -23,6 +25,14 @@ public class Robo {
         this.qtdVida = qtdVida;
         this.nome = nome;
         this.armaEquipada = null;
+    }
+
+    public boolean isDoente() {
+        return doente;
+    }
+
+    public void setDoente(boolean doente, Virus v) {
+        this.doente = doente;
     }
 
     public String getNome() {
