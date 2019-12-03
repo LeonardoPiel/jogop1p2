@@ -13,12 +13,12 @@ import java.util.List;
  */
 public class Arena {
 
-    private double comprimento;
-    private double altura;
-    private double largura;
+    private int comprimento;
+    private int altura;
+    private int largura;
     private List<ItensEspeciais> itensEspeciais;
 
-    public Arena(double comprimento, double altura, double largura, List<ItensEspeciais> itensEspeciais) {
+    public Arena(int comprimento, int altura, int largura, List<ItensEspeciais> itensEspeciais) {
         this.comprimento = comprimento;
         this.altura = altura;
         this.largura = largura;
@@ -32,12 +32,12 @@ public class Arena {
     public void setItensEspeciais(List<ItensEspeciais> itensEspeciais) {
         this.itensEspeciais = itensEspeciais;
     }
-    
+
     public double getComprimento() {
         return comprimento;
     }
 
-    public void setComprimento(double comprimento) {
+    public void setComprimento(int comprimento) {
         this.comprimento = comprimento;
     }
 
@@ -45,7 +45,7 @@ public class Arena {
         return altura;
     }
 
-    public void setAltura(double altura) {
+    public void setAltura(int altura) {
         this.altura = altura;
     }
 
@@ -53,11 +53,18 @@ public class Arena {
         return largura;
     }
 
-    public void setLargura(double largura) {
+    public void setLargura(int largura) {
         this.largura = largura;
     }
-    
-    public void desenhar(){
-        System.out.println("desenhou arena");
+
+    public void desenhar(Robo j1, Robo j2) {
+        String[][] matriz = new String[20][20];
+        for (int linha = 0; linha < this.altura; linha++) {
+            System.out.println("|");
+            for (int coluna = 0; coluna < this.largura; coluna++) {
+                    matriz[j1.getPosX()][j1.getPosY()] = "X1";
+                    //matriz[j2.getPosX()][j2.getPosY()] = "X2";
+            }
+        }
     }
 }

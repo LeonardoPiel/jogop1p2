@@ -53,25 +53,31 @@ public class Arma extends ItensEspeciais {
     }
 
     public double atacar(Robo oponente) {
-        double eq = Math.pow((this.x - oponente.getPosX()),2) + Math.pow((this.y - oponente.getPosY()),2);
+        /**
+         * Cálculo realizado pela distância euclidiana
+         */
+        double eq = Math.pow((this.x - oponente.getPosX()), 2) + Math.pow((this.y - oponente.getPosY()), 2);
         double dist = Math.sqrt(eq);
-        
-        if (dist > 10) {
-            return 0;
-        }
         Random rand = new Random();
-        oponente.receberDano((this.coeficienteDano / dist) * rand.nextDouble());
-        
-        return (this.coeficienteDano / dist) * rand.nextDouble();
+        if (this.tipo == 1) {
+            if (dist > 10) {
+                return 0;
+            }
+            oponente.receberDano((this.coeficienteDano / dist) * rand.nextDouble());
+            return (this.coeficienteDano / dist) * rand.nextDouble();
+        }else{
+            oponente.receberDano((this.coeficienteDano / dist) * rand.nextDouble());
+            return (this.coeficienteDano / dist) * rand.nextDouble();
+        }
     }
 
     public void mostraArma() {
         System.out.println("coef dano: " + this.coeficienteDano + "\n"
                 + "nome: " + this.nome + "\n "
                 + "x: " + this.getX() + "\n "
-                + "y: " + this.getY() + "\n "       
+                + "y: " + this.getY() + "\n "
                 + "tipo: " + this.tipo);
-        
+
     }
 
     public static void main(String[] args) {
