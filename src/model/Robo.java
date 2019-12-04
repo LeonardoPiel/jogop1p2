@@ -31,7 +31,7 @@ public class Robo {
         this.n = 0;
     }
 
-    public void checaVirus() {
+    public void checaVirus() { // método que controla a penalidade sofrida pelo jogador que pegou vírus
         if (this.isDoente()) {
             if (this.n < this.virus.getN()) {
                 this.receberDano(this.virus.getM());

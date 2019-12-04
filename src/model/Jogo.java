@@ -192,7 +192,8 @@ public class Jogo {
         }
         return 0;
     }
-
+    
+    /*laço de repetição principal do jogo*/
     public void duelar() {
         while (this.j1.getQtdVida() > 0 && this.j2.getQtdVida() > 0) {
             /*enquanto ninguém morrer o jogo continua*/
